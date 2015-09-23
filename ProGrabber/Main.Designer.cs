@@ -192,9 +192,10 @@
             this.cmProxyType.FormattingEnabled = true;
             this.cmProxyType.ItemHeight = 23;
             this.cmProxyType.Items.AddRange(new object[] {
+            "Sock Proxies",
             "SSL Proxies",
             "Google Proxies",
-            "L1/L2/L3 HTTP Proxies Mixed"});
+            "Server Proxies"});
             this.cmProxyType.Location = new System.Drawing.Point(119, 48);
             this.cmProxyType.Name = "cmProxyType";
             this.cmProxyType.Size = new System.Drawing.Size(358, 29);
@@ -256,6 +257,7 @@
             this.Style = MetroFramework.MetroColorStyle.Red;
             this.Text = "ProGrabber";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.Load += new System.EventHandler(this.Main_Load);
             this.metroTabControl1.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
             this.metroTabPage1.PerformLayout();

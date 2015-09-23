@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ProGrabber
@@ -23,27 +25,32 @@ namespace ProGrabber
             // Google Proxies
             // L1 / L2 / L3 HTTP Proxies Mixed
 
-            GrabType(cmProxyType.Text.ToLower());
+            if(cmProxyType.Text != null || cmProxyType.Text != "")
+            {
+                GrabType(cmProxyType.Text.ToLower());
+            }
+            else
+            {
+                MessageBox.Show("Grab what?!");
+            }
         }
 
         public static void GrabType(String pType)
         {
             switch (pType)
             {
+                case "sock proxies":
+                    Grab("http://socksproxylist24.blogspot.com/");
+                    break;
                 case "ssl proxies":
-                    // http://sslproxies24.blogspot.com/
                     Grab("http://sslproxies24.blogspot.com/");
                     break;
                 case "google proxies":
-                    // http://googleproxies24.blogspot.com/
-
+                    Grab("http://googleproxies24.blogspot.com/");
                     break;
-                case "l1 / l2 / l3 http proxies mixed":
-                    // http://proxyserverlist-24.blogspot.com/
-
+                case "server proxies":
+                    Grab("http://proxyserverlist-24.blogspot.com/");
                     break;
-                    // default:
-                    // Default would be ssl proxies, i suppose!
             }
         }
 
@@ -52,15 +59,35 @@ namespace ProGrabber
             var Webget = new HtmlWeb();
             var doc = Webget.Load(pURL);
 
-            foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//h3[@class='post-title entry-title']//a"))
+            foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//h3[@class='post-title entry-title']//a[@href]"))
             {
-                
+                string link = (node.Attributes["href"].Value);
+
+                if (!string.IsNullOrEmpty(link))
+                {
+                    new Thread(() => GrabProxies(link)).Start();
+                }
+                else { }
             }
         }
 
         public static void GrabProxies(string innerProxyURL)
         {
+            var Webget = new HtmlWeb();
+            var doc = Webget.Load(innerProxyURL);
 
+            foreach(HtmlNode N in doc.DocumentNode.SelectNodes("//pre[@class='alt2']"))
+            {
+                File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+            }
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            if (!Directory.Exists("Proxies"))
+            {
+                Directory.CreateDirectory("Proxies");
+            }
         }
     }
 }
