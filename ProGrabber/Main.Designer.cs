@@ -185,6 +185,7 @@
             this.btnGrabThem.Text = "Grab \'em!";
             this.btnGrabThem.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.btnGrabThem.UseSelectable = true;
+            this.btnGrabThem.Click += new System.EventHandler(this.btnGrabThem_Click);
             // 
             // cmProxyType
             // 
