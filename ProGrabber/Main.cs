@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MetroFramework.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +9,7 @@ using System.Windows.Forms;
 
 namespace ProGrabber
 {
-    public partial class Main : Form
+    public partial class Main : MetroForm
     {
         public Main()
         {
