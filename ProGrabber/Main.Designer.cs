@@ -1,6 +1,6 @@
 ﻿namespace ProGrabber
 {
-    partial class Main
+    partial class s
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(s));
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
             this.btnClearFields = new MetroFramework.Controls.MetroButton();
@@ -41,6 +41,8 @@
             this.metroTabPage3 = new MetroFramework.Controls.MetroTabPage();
             this.txtAbout = new MetroFramework.Controls.MetroLabel();
             this.lnkCopyright = new MetroFramework.Controls.MetroLink();
+            this.btnOpenDirectory = new MetroFramework.Controls.MetroButton();
+            this.gTooltip = new MetroFramework.Components.MetroToolTip();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.metroTabPage3.SuspendLayout();
@@ -61,11 +63,12 @@
             // 
             // metroTabPage1
             // 
+            this.metroTabPage1.Controls.Add(this.btnBrowseSD);
+            this.metroTabPage1.Controls.Add(this.btnOpenDirectory);
             this.metroTabPage1.Controls.Add(this.btnClearFields);
             this.metroTabPage1.Controls.Add(this.btnGrabThem);
             this.metroTabPage1.Controls.Add(this.cmProxyType);
             this.metroTabPage1.Controls.Add(this.lblProxyType);
-            this.metroTabPage1.Controls.Add(this.btnBrowseSD);
             this.metroTabPage1.Controls.Add(this.txtStoreDirectory);
             this.metroTabPage1.Controls.Add(this.lblStoreDirectory);
             this.metroTabPage1.HorizontalScrollbarBarColor = true;
@@ -91,6 +94,7 @@
             this.btnClearFields.Text = "Clear Fields";
             this.btnClearFields.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.btnClearFields.UseSelectable = true;
+            this.btnClearFields.Click += new System.EventHandler(this.btnClearFields_Click);
             // 
             // btnGrabThem
             // 
@@ -119,6 +123,7 @@
             this.cmProxyType.Style = MetroFramework.MetroColorStyle.Red;
             this.cmProxyType.TabIndex = 7;
             this.cmProxyType.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.gTooltip.SetToolTip(this.cmProxyType, "Select the proxy type which you wish to grab!");
             this.cmProxyType.UseSelectable = true;
             // 
             // lblProxyType
@@ -134,31 +139,32 @@
             // 
             // btnBrowseSD
             // 
-            this.btnBrowseSD.Location = new System.Drawing.Point(454, 15);
+            this.btnBrowseSD.Location = new System.Drawing.Point(435, 15);
             this.btnBrowseSD.Name = "btnBrowseSD";
-            this.btnBrowseSD.Size = new System.Drawing.Size(23, 23);
+            this.btnBrowseSD.Size = new System.Drawing.Size(18, 23);
             this.btnBrowseSD.Style = MetroFramework.MetroColorStyle.Red;
             this.btnBrowseSD.TabIndex = 4;
             this.btnBrowseSD.Text = "..";
             this.btnBrowseSD.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.gTooltip.SetToolTip(this.btnBrowseSD, "Select a directory for your custom path to store the \r\ngrabbed proxies. It shall " +
+        "be your \r\nAPPLICATION_LAUNCH_PATH/Proxies/<Proxies>.");
             this.btnBrowseSD.UseSelectable = true;
             this.btnBrowseSD.Click += new System.EventHandler(this.btnBrowseSD_Click);
             // 
             // txtStoreDirectory
             // 
-            this.txtStoreDirectory.Lines = new string[] {
-        "Default path is your application start path. Browse to edit."};
+            this.txtStoreDirectory.Lines = new string[0];
             this.txtStoreDirectory.Location = new System.Drawing.Point(119, 15);
             this.txtStoreDirectory.MaxLength = 32767;
             this.txtStoreDirectory.Name = "txtStoreDirectory";
             this.txtStoreDirectory.PasswordChar = '\0';
             this.txtStoreDirectory.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtStoreDirectory.SelectedText = "";
-            this.txtStoreDirectory.Size = new System.Drawing.Size(327, 23);
+            this.txtStoreDirectory.Size = new System.Drawing.Size(310, 23);
             this.txtStoreDirectory.Style = MetroFramework.MetroColorStyle.Red;
             this.txtStoreDirectory.TabIndex = 3;
-            this.txtStoreDirectory.Text = "Default path is your application start path. Browse to edit.";
             this.txtStoreDirectory.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.gTooltip.SetToolTip(this.txtStoreDirectory, "Default path is your application start path. \r\nBrowse to edit.");
             this.txtStoreDirectory.UseSelectable = true;
             // 
             // lblStoreDirectory
@@ -209,15 +215,37 @@
             this.lnkCopyright.Text = "Copyright © 2015, Scarecrow [CK]";
             this.lnkCopyright.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.lnkCopyright.UseSelectable = true;
+            this.lnkCopyright.Click += new System.EventHandler(this.lnkCopyright_Click);
             // 
-            // Main
+            // btnOpenDirectory
+            // 
+            this.btnOpenDirectory.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnOpenDirectory.Location = new System.Drawing.Point(459, 15);
+            this.btnOpenDirectory.Name = "btnOpenDirectory";
+            this.btnOpenDirectory.Size = new System.Drawing.Size(18, 23);
+            this.btnOpenDirectory.Style = MetroFramework.MetroColorStyle.Red;
+            this.btnOpenDirectory.TabIndex = 10;
+            this.btnOpenDirectory.Tag = "";
+            this.btnOpenDirectory.Text = "D";
+            this.btnOpenDirectory.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.gTooltip.SetToolTip(this.btnOpenDirectory, "Show your selected directory in Explorer.");
+            this.btnOpenDirectory.UseSelectable = true;
+            this.btnOpenDirectory.Click += new System.EventHandler(this.btnOpenDirectory_Click);
+            // 
+            // gTooltip
+            // 
+            this.gTooltip.Style = MetroFramework.MetroColorStyle.Red;
+            this.gTooltip.StyleManager = null;
+            this.gTooltip.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // s
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 260);
             this.Controls.Add(this.lnkCopyright);
             this.Controls.Add(this.metroTabControl1);
-            this.Name = "Main";
+            this.Name = "s";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
             this.Style = MetroFramework.MetroColorStyle.Red;
@@ -247,6 +275,8 @@
         private MetroFramework.Controls.MetroComboBox cmProxyType;
         private MetroFramework.Controls.MetroLabel lblProxyType;
         private MetroFramework.Controls.MetroLabel txtAbout;
+        private MetroFramework.Controls.MetroButton btnOpenDirectory;
+        private MetroFramework.Components.MetroToolTip gTooltip;
     }
 }
 

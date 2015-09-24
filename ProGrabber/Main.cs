@@ -1,15 +1,18 @@
 ﻿using HtmlAgilityPack;
 using MetroFramework.Forms;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace ProGrabber
 {
-    public partial class Main : MetroForm
+    public partial class s : MetroForm
     {
-        public Main()
+        private static String storePath = string.Empty;
+
+        public s()
         {
             InitializeComponent();
         }
@@ -79,25 +82,27 @@ namespace ProGrabber
                 var Webget = new HtmlWeb();
                 var doc = Webget.Load(innerProxyURL);
 
+                string Proxies = string.Empty;
+
                 switch (pType)
                 {
                     case "sock proxies":
                         foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//textarea[@onclick='this.focus();this.select()']"))
                         {
-                            File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                            Proxies = N.InnerText;
                         }
                         break;
                     case "ssl proxies":
                         foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//pre[@class='alt2']"))
                         {
-                            File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                            Proxies = N.InnerText;
                         }
                         break;
                     case "google proxies":
 
                         foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//span[@style='color: #ffffff;']"))
                         {
-                            File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                            Proxies = N.InnerText;
                         }
 
                         break;
@@ -105,10 +110,21 @@ namespace ProGrabber
 
                         foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//span[@style='color: #ffffff;']"))
                         {
-                            File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                            Proxies = N.InnerText;
                         }
 
                         break;
+                }
+
+                if (!string.IsNullOrEmpty(storePath))
+                {
+                    // It's not empty - user seems to have provided where to store the proxies!
+                    File.WriteAllLines(@storePath + "//" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), Proxies.Split(new string[] { "\n" }, StringSplitOptions.None));
+                }
+                else
+                {
+                    // No input from the user! Use the APP.STARTUP path.
+                    File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), Proxies.Split(new string[] { "\n" }, StringSplitOptions.None));
                 }
             }
             catch {
@@ -131,9 +147,34 @@ namespace ProGrabber
             {
                 if(fbd.ShowDialog() == DialogResult.OK)
                 {
-                    txtStoreDirectory.Text = fbd.SelectedPath;
+                    txtStoreDirectory.Text = @fbd.SelectedPath;
+                    storePath = @fbd.SelectedPath;
                 }
             }
+        }
+
+        private void btnClearFields_Click(object sender, EventArgs e)
+        {
+            txtStoreDirectory.Clear();
+            cmProxyType.SelectedIndex = -1;
+        }
+
+        private void btnOpenDirectory_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(storePath))
+            {
+                Process.Start(@storePath);
+            }
+            else
+            {
+                Process.Start(Application.StartupPath);
+            }
+        }
+
+        private void lnkCopyright_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://www.crackingking.com/");
+            Process.Start("https://www.crackingking.com/member.php?action=profile&uid=2");
         }
     }
 }
