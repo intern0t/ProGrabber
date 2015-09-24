@@ -27,7 +27,7 @@ namespace ProGrabber
             }
             else
             {
-                MessageBox.Show("Grab what?!");
+                MessageBox.Show("Grab what?! Store to?!?");
             }
         }
 
@@ -36,47 +36,79 @@ namespace ProGrabber
             switch (pType)
             {
                 case "sock proxies":
-                    Grab("http://socksproxylist24.blogspot.com/");
+                    Grab("http://socksproxylist24.blogspot.com/", pType);
                     break;
                 case "ssl proxies":
-                    Grab("http://sslproxies24.blogspot.com/");
+                    Grab("http://sslproxies24.blogspot.com/", pType);
                     break;
                 case "google proxies":
-                    Grab("http://googleproxies24.blogspot.com/");
+                    Grab("http://googleproxies24.blogspot.com/", pType);
                     break;
                 case "server proxies":
-                    Grab("http://proxyserverlist-24.blogspot.com/");
+                    Grab("http://proxyserverlist-24.blogspot.com/", pType);
                     break;
             }
         }
 
-        public static void Grab(string pURL)
+        public static void Grab(string pURL, string pType)
         {
             var Webget = new HtmlWeb();
             var doc = Webget.Load(pURL);
 
-            foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//h3[@class='post-title entry-title']//a[@href]"))
+            foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//h3[@class='post-title entry-title']//a"))
             {
-                string link = (node.Attributes["href"].Value);
+                string link = N.Attributes["href"].Value;
 
-                if (!string.IsNullOrEmpty(link))
+                if(link != null &&
+                    link != "" &&
+                    !string.IsNullOrEmpty(link))
                 {
-                    new Thread(() => GrabProxies(link)).Start();
+                    new Thread(() => GrabProxies(link, pType)).Start();
                 }
-                else { }
+                else
+                {
+                    MessageBox.Show("Failed to retrieve valid node!");
+                }
             }
         }
 
-        public static void GrabProxies(string innerProxyURL)
+        public static void GrabProxies(string innerProxyURL, string pType)
         {
             try
             {
                 var Webget = new HtmlWeb();
                 var doc = Webget.Load(innerProxyURL);
 
-                foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//span[@style='color: #ffffff;']"))
+                switch (pType)
                 {
-                    File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                    case "sock proxies":
+                        foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//textarea[@onclick='this.focus();this.select()']"))
+                        {
+                            File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                        }
+                        break;
+                    case "ssl proxies":
+                        foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//pre[@class='alt2']"))
+                        {
+                            File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                        }
+                        break;
+                    case "google proxies":
+
+                        foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//span[@style='color: #ffffff;']"))
+                        {
+                            File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                        }
+
+                        break;
+                    case "server proxies":
+
+                        foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//span[@style='color: #ffffff;']"))
+                        {
+                            File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                        }
+
+                        break;
                 }
             }
             catch {
@@ -89,6 +121,18 @@ namespace ProGrabber
             if (!Directory.Exists("Proxies"))
             {
                 Directory.CreateDirectory("Proxies");
+            }
+            else { }
+        }
+
+        private void btnBrowseSD_Click(object sender, EventArgs e)
+        {
+            using(FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                if(fbd.ShowDialog() == DialogResult.OK)
+                {
+                    txtStoreDirectory.Text = fbd.SelectedPath;
+                }
             }
         }
     }
