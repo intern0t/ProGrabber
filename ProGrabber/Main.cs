@@ -1,12 +1,7 @@
 ﻿using HtmlAgilityPack;
 using MetroFramework.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -21,9 +16,10 @@ namespace ProGrabber
 
         private void btnGrabThem_Click(object sender, EventArgs e)
         {
+            // Sock Proxies
             // SSL Proxies
             // Google Proxies
-            // L1 / L2 / L3 HTTP Proxies Mixed
+            // Server Proxies
 
             if(cmProxyType.Text != null || cmProxyType.Text != "")
             {
@@ -73,12 +69,18 @@ namespace ProGrabber
 
         public static void GrabProxies(string innerProxyURL)
         {
-            var Webget = new HtmlWeb();
-            var doc = Webget.Load(innerProxyURL);
-
-            foreach(HtmlNode N in doc.DocumentNode.SelectNodes("//pre[@class='alt2']"))
+            try
             {
-                File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                var Webget = new HtmlWeb();
+                var doc = Webget.Load(innerProxyURL);
+
+                foreach (HtmlNode N in doc.DocumentNode.SelectNodes("//span[@style='color: #ffffff;']"))
+                {
+                    File.WriteAllLines(@Application.StartupPath + "/Proxies/" + innerProxyURL.Split('/')[5].Replace("html", ".txt"), N.InnerText.Split(new string[] { "\n" }, StringSplitOptions.None));
+                }
+            }
+            catch {
+                MessageBox.Show("Failed to obtain & save the requested proxies!");
             }
         }
 
