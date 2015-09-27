@@ -31,17 +31,17 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(s));
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
+            this.btnBrowseSD = new MetroFramework.Controls.MetroButton();
+            this.btnOpenDirectory = new MetroFramework.Controls.MetroButton();
             this.btnClearFields = new MetroFramework.Controls.MetroButton();
             this.btnGrabThem = new MetroFramework.Controls.MetroButton();
             this.cmProxyType = new MetroFramework.Controls.MetroComboBox();
             this.lblProxyType = new MetroFramework.Controls.MetroLabel();
-            this.btnBrowseSD = new MetroFramework.Controls.MetroButton();
             this.txtStoreDirectory = new MetroFramework.Controls.MetroTextBox();
             this.lblStoreDirectory = new MetroFramework.Controls.MetroLabel();
             this.metroTabPage3 = new MetroFramework.Controls.MetroTabPage();
             this.txtAbout = new MetroFramework.Controls.MetroLabel();
             this.lnkCopyright = new MetroFramework.Controls.MetroLink();
-            this.btnOpenDirectory = new MetroFramework.Controls.MetroButton();
             this.gTooltip = new MetroFramework.Components.MetroToolTip();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
@@ -83,6 +83,35 @@
             this.metroTabPage1.VerticalScrollbarBarColor = true;
             this.metroTabPage1.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage1.VerticalScrollbarSize = 10;
+            // 
+            // btnBrowseSD
+            // 
+            this.btnBrowseSD.Location = new System.Drawing.Point(435, 15);
+            this.btnBrowseSD.Name = "btnBrowseSD";
+            this.btnBrowseSD.Size = new System.Drawing.Size(18, 23);
+            this.btnBrowseSD.Style = MetroFramework.MetroColorStyle.Red;
+            this.btnBrowseSD.TabIndex = 4;
+            this.btnBrowseSD.Text = "..";
+            this.btnBrowseSD.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.gTooltip.SetToolTip(this.btnBrowseSD, "Select a directory for your custom path to store the \r\ngrabbed proxies. It shall " +
+        "be your \r\nAPPLICATION_LAUNCH_PATH/Proxies/<Proxies>.");
+            this.btnBrowseSD.UseSelectable = true;
+            this.btnBrowseSD.Click += new System.EventHandler(this.btnBrowseSD_Click);
+            // 
+            // btnOpenDirectory
+            // 
+            this.btnOpenDirectory.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnOpenDirectory.Location = new System.Drawing.Point(459, 15);
+            this.btnOpenDirectory.Name = "btnOpenDirectory";
+            this.btnOpenDirectory.Size = new System.Drawing.Size(18, 23);
+            this.btnOpenDirectory.Style = MetroFramework.MetroColorStyle.Red;
+            this.btnOpenDirectory.TabIndex = 10;
+            this.btnOpenDirectory.Tag = "";
+            this.btnOpenDirectory.Text = "D";
+            this.btnOpenDirectory.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.gTooltip.SetToolTip(this.btnOpenDirectory, "Show your selected directory in Explorer.");
+            this.btnOpenDirectory.UseSelectable = true;
+            this.btnOpenDirectory.Click += new System.EventHandler(this.btnOpenDirectory_Click);
             // 
             // btnClearFields
             // 
@@ -136,20 +165,6 @@
             this.lblProxyType.TabIndex = 6;
             this.lblProxyType.Text = "Proxy Type";
             this.lblProxyType.Theme = MetroFramework.MetroThemeStyle.Dark;
-            // 
-            // btnBrowseSD
-            // 
-            this.btnBrowseSD.Location = new System.Drawing.Point(435, 15);
-            this.btnBrowseSD.Name = "btnBrowseSD";
-            this.btnBrowseSD.Size = new System.Drawing.Size(18, 23);
-            this.btnBrowseSD.Style = MetroFramework.MetroColorStyle.Red;
-            this.btnBrowseSD.TabIndex = 4;
-            this.btnBrowseSD.Text = "..";
-            this.btnBrowseSD.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.gTooltip.SetToolTip(this.btnBrowseSD, "Select a directory for your custom path to store the \r\ngrabbed proxies. It shall " +
-        "be your \r\nAPPLICATION_LAUNCH_PATH/Proxies/<Proxies>.");
-            this.btnBrowseSD.UseSelectable = true;
-            this.btnBrowseSD.Click += new System.EventHandler(this.btnBrowseSD_Click);
             // 
             // txtStoreDirectory
             // 
@@ -217,21 +232,6 @@
             this.lnkCopyright.UseSelectable = true;
             this.lnkCopyright.Click += new System.EventHandler(this.lnkCopyright_Click);
             // 
-            // btnOpenDirectory
-            // 
-            this.btnOpenDirectory.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnOpenDirectory.Location = new System.Drawing.Point(459, 15);
-            this.btnOpenDirectory.Name = "btnOpenDirectory";
-            this.btnOpenDirectory.Size = new System.Drawing.Size(18, 23);
-            this.btnOpenDirectory.Style = MetroFramework.MetroColorStyle.Red;
-            this.btnOpenDirectory.TabIndex = 10;
-            this.btnOpenDirectory.Tag = "";
-            this.btnOpenDirectory.Text = "D";
-            this.btnOpenDirectory.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.gTooltip.SetToolTip(this.btnOpenDirectory, "Show your selected directory in Explorer.");
-            this.btnOpenDirectory.UseSelectable = true;
-            this.btnOpenDirectory.Click += new System.EventHandler(this.btnOpenDirectory_Click);
-            // 
             // gTooltip
             // 
             this.gTooltip.Style = MetroFramework.MetroColorStyle.Red;
@@ -245,6 +245,7 @@
             this.ClientSize = new System.Drawing.Size(544, 260);
             this.Controls.Add(this.lnkCopyright);
             this.Controls.Add(this.metroTabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "s";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
